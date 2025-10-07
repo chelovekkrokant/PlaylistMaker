@@ -4,4 +4,8 @@
     <string name="playlists">Плейлисты</string>
     <string name="favorites">Избранное</string>
     <string name="settings">Настройки</string>
+    <string name="dark_theme">Тёмная тема</string>
+    <string name="share_app">Поделиться приложением</string>
+    <string name="write_to_support">Написать в поддержу</string>
+    <string name="user_agreement">Пользовательское соглашение</string>
 </resources>
