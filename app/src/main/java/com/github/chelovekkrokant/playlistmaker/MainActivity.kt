@@ -1,5 +1,6 @@
 package com.github.chelovekkrokant.playlistmaker
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -42,7 +43,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,183 +50,176 @@ class MainActivity : ComponentActivity() {
             MainScreen()
         }
     }
-}
 
-@Composable
-fun MainScreen() {
-    val context = LocalContext.current
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-           .background(color = Color(0xFF3772E7))
-    )
-    {
-        // Panel header
-        Box(
+    @Composable
+    fun MainScreen() {
+        val context = LocalContext.current
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
-        ) {
+                .fillMaxSize()
+                .background(color = Color(0xFF3772E7))
+        )
+        {
+            // Panel header
             Box(
                 modifier = Modifier
-                    .width(304.dp)
-                    .wrapContentHeight()
-                    .padding(top = 4.dp, start = 4.dp)
-            ){
+                    .fillMaxWidth()
+                    .height(56.dp)
+            ) {
                 Box(
                     modifier = Modifier
-                        .width(208.dp)
-                        .height(48.dp),
-                    contentAlignment = Alignment.CenterStart
-                ) {
-
-
-                    Text(
-                        text = stringResource(id = R.string.app_name),
+                        .width(304.dp)
+                        .wrapContentHeight()
+                        .padding(top = 4.dp, start = 4.dp)
+                ){
+                    Box(
                         modifier = Modifier
-                            .padding(4.dp)
-                            .wrapContentSize(),
-                        style = TextStyle(
-                            color = Color.White,
-                            fontSize = 22.sp,
-                        ),
-                        fontFamily = FontFamily(Font(R.font.yandex_text_medium)),
-                        fontWeight = FontWeight.Medium
+                            .width(208.dp)
+                            .height(48.dp),
+                        contentAlignment = Alignment.CenterStart
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.app_name),
+                            modifier = Modifier
+                                .padding(4.dp)
+                                .wrapContentSize(),
+                            style = TextStyle(
+                                color = Color.White,
+                                fontSize = 22.sp,
+                            ),
+                            fontFamily = FontFamily(Font(R.font.yandex_text_medium)),
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
+                }
+            }
+
+            // Menu
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .background(
+                        color = Color.White,
+                        shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
+                    )
+                    .weight(1f)
+            )
+            {
+                Column(
+                    modifier = Modifier
+                        .padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    CustomBoxRow(
+                        Icons.Default.Search,
+                        Icons.AutoMirrored.Default.KeyboardArrowRight,
+                        R.string.search,
+                        {
+                            val displayIntent = Intent(this@MainActivity, SearchActivity::class.java)
+                            startActivity(displayIntent)
+                        }
+                    )
+                    CustomBoxRow(
+                        Icons.Default.LibraryMusic,
+                        Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                        R.string.playlists,
+                        {
+                            Toast.makeText(
+                                context,
+                                "Нажата кнопка ${context.getString(R.string.playlists)}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    )
+                    CustomBoxRow(
+                        Icons.Default.FavoriteBorder,
+                        Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                        R.string.favorites,
+                        {
+                            Toast.makeText(
+                                context,
+                                "Нажата кнопка ${context.getString(R.string.favorites)}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    )
+                    CustomBoxRow(
+                        Icons.Default.Settings,
+                        Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                        R.string.settings,
+                        {
+                            val displayIntent =
+                                Intent(this@MainActivity, SettingsActivity::class.java)
+                            startActivity(displayIntent)
+                        }
                     )
                 }
             }
         }
+    }
 
-        // Menu
-        Column(
-            Modifier
+    @Composable
+    fun CustomBoxRow(
+        startIcon: ImageVector,
+        endIcon : ImageVector,
+        textId: Int = R.string.favorites,
+        onClick : () -> Unit
+    ){
+        Button(
+            onClick = onClick,
+            modifier = Modifier
                 .fillMaxWidth()
-                .background(
-                    color = Color.White,
-                    shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
-                )
-                .weight(1f)
-        )
-        {
-            Column(
+                .height(66.dp),
+            shape = RoundedCornerShape(0.dp),
+            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                containerColor = Color.Transparent,
+                contentColor = Color.Black),
+            contentPadding = PaddingValues(0.dp)
+        ) {
+            // Row with info
+            Row(
                 modifier = Modifier
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                horizontalAlignment = Alignment.Start
+                    .fillMaxWidth()
+                    .padding(start = 12.dp, end = 12.dp, top = 18.dp, bottom = 18.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                CustomBoxRow(
-                    Icons.Default.Search,
-                    Icons.AutoMirrored.Default.KeyboardArrowRight,
-                    R.string.search,
-                    {
-                        Toast.makeText(
-                            context,
-                            "Нажата кнопка ${context.getString(R.string.search)}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                Image(
+                    modifier = Modifier,
+                    alignment = Alignment.CenterStart,
+                    imageVector = startIcon,
+                    contentDescription = null
                 )
-                CustomBoxRow(
-                    Icons.Default.LibraryMusic,
-                    Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                    R.string.playlists,
-                    {
-                        Toast.makeText(
-                            context,
-                            "Нажата кнопка ${context.getString(R.string.playlists)}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                Text(
+                    text = stringResource(textId),
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .align(Alignment.CenterVertically)
+                        .weight(1f),
+                    fontFamily = FontFamily(Font(R.font.yandex_text_medium)),
+                    fontWeight = FontWeight.Medium,
+                    style = TextStyle(
+                        color = Color.Black,
+                        fontSize = 22.sp,
+                    )
                 )
-                CustomBoxRow(
-                    Icons.Default.FavoriteBorder,
-                    Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                    R.string.favorites,
-                    {
-                        Toast.makeText(
-                            context,
-                            "Нажата кнопка ${context.getString(R.string.favorites)}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                )
-                CustomBoxRow(
-                    Icons.Default.Settings,
-                    Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                    R.string.settings,
-                    {
-                        Toast.makeText(
-                            context,
-                            "Нажата кнопка ${context.getString(R.string.settings)}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                Image(
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .align(Alignment.CenterVertically),
+                    imageVector = endIcon,
+                    contentDescription = null
                 )
             }
         }
     }
-}
 
-@Composable
-fun CustomBoxRow(
-    startIcon: ImageVector,
-    endIcon : ImageVector,
-    textId: Int = R.string.favorites,
-    onClick : () -> Unit
-    ){
-    Button(
-        onClick = onClick,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(66.dp),
-        shape = RoundedCornerShape(0.dp),
-        colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-            containerColor = Color.Transparent,
-            contentColor = Color.Black),
-        contentPadding = PaddingValues(0.dp)
-    ) {
-        // Row with info
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 12.dp, end = 12.dp, top = 18.dp, bottom = 18.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            Image(
-                modifier = Modifier,
-                alignment = Alignment.CenterStart,
-                imageVector = startIcon,
-                contentDescription = null
-            )
-            Text(
-                text = stringResource(textId),
-                modifier = Modifier
-                    .padding(start = 16.dp)
-                    .align(Alignment.CenterVertically)
-                    .weight(1f),
-                fontFamily = FontFamily(Font(R.font.yandex_text_medium)),
-                fontWeight = FontWeight.Medium,
-                style = TextStyle(
-                    color = Color.Black,
-                    fontSize = 22.sp,
-                )
-            )
-            Image(
-                modifier = Modifier
-                    .padding(start = 16.dp)
-                    .align(Alignment.CenterVertically),
-                imageVector = endIcon,
-                contentDescription = null
-            )
-        }
+    @Preview(name = "portrait", showSystemUi = true,
+        device = "spec:width=360dp,height=800dp, orientation=portrait")
+    @Preview(name = "landscape", showSystemUi = true,
+        device = "spec:width=360dp,height=800dp, orientation=landscape")
+    @Composable
+    fun MainScreenPreview() {
+        MainScreen()
     }
-}
-
-@Preview(name = "portrait", showSystemUi = true,
-    device = "spec:width=360dp,height=800dp, orientation=portrait")
-@Preview(name = "landscape", showSystemUi = true,
-    device = "spec:width=360dp,height=800dp, orientation=landscape")
-@Composable
-fun MainScreenPreview() {
-    MainScreen()
 }
