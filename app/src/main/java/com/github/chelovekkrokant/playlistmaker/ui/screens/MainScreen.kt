@@ -41,7 +41,10 @@ import androidx.compose.ui.unit.sp
 import com.github.chelovekkrokant.playlistmaker.R
 
 @Composable
-fun MainScreen() {
+fun MainScreen(
+    onSearchClick: () -> Unit,
+    onSettingsClick: () -> Unit,
+) {
     val context = LocalContext.current
     Column(
         modifier = Modifier
@@ -102,8 +105,10 @@ fun MainScreen() {
                 CustomBoxRow(
                     Icons.Default.Search,
                     Icons.AutoMirrored.Default.KeyboardArrowRight,
-                    R.string.search
-                ) {}
+                    R.string.search,
+                ) {
+                    onSearchClick()
+                }
                 CustomBoxRow(
                     Icons.Default.LibraryMusic,
                     Icons.AutoMirrored.Filled.KeyboardArrowRight,
@@ -130,7 +135,9 @@ fun MainScreen() {
                     Icons.Default.Settings,
                     Icons.AutoMirrored.Filled.KeyboardArrowRight,
                     R.string.settings
-                ) {}
+                ) {
+                    onSettingsClick()
+                }
             }
         }
     }
@@ -198,5 +205,5 @@ fun CustomBoxRow(
     device = "spec:width=360dp,height=800dp, orientation=landscape")
 @Composable
 fun MainScreenPreview() {
-    MainScreen()
+    MainScreen({}, {})
 }

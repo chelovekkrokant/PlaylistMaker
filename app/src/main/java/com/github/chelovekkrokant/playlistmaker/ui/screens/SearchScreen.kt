@@ -2,9 +2,9 @@ package com.github.chelovekkrokant.playlistmaker.ui.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,12 +15,21 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,13 +45,46 @@ import androidx.compose.ui.unit.sp
 import com.github.chelovekkrokant.playlistmaker.R
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchScreen() {
-    Column {
-        HeaderWithBackToHomeButton(R.string.search)
-        SearchComplexButton()
+fun SearchScreen(onBackClick: () -> Unit) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Поиск") },
+                navigationIcon = {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Назад",
+                        Modifier.clickable(onClick = { onBackClick() })
+                    )
+                }
+                )
+        }
+    ) { paddingValues ->
+        Box(modifier = Modifier.padding(paddingValues)) {
+            var searchText by remember { mutableStateOf("") }
+            TextField(
+                label = { Text("Поиск") },
+                value = searchText,
+                onValueChange = { searchText = it },
+                leadingIcon = {
+                    Icon(Icons.Default.Search, "Поиск")
+                },
+                trailingIcon = {
+                    if(searchText.isNotEmpty()) {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = "Очистить",
+                            Modifier.clickable(onClick = {
+                                searchText = ""
+                            })
+                        )
+                    }
+                },
+            )
+        }
     }
-
 }
 
 @Composable
@@ -99,6 +141,7 @@ fun SearchComplexButton(){
             .padding(vertical = 8.dp, horizontal = 16.dp),
         contentAlignment = Alignment.Center
     ){
+                }
         Button(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -140,7 +183,6 @@ fun SearchComplexButton(){
             }
         }
     }
-}
 
 
 @Preview(name = "portrait", showSystemUi = true,
@@ -149,5 +191,5 @@ fun SearchComplexButton(){
     device = "spec:width=360dp,height=800dp, orientation=landscape")
 @Composable
 fun SearchScreenPreview() {
-    SearchScreen()
+    SearchScreen {}
 }

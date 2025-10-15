@@ -1,16 +1,24 @@
 package com.github.chelovekkrokant.playlistmaker.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.SupportAgent
 import androidx.compose.material.icons.filled.ToggleOff
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,30 +35,49 @@ import androidx.compose.ui.unit.sp
 import com.github.chelovekkrokant.playlistmaker.R
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen() {
+fun SettingsScreen(onBackClick: () -> Unit) {
 
-    HeaderWithBackToHomeButton(R.string.settings)
-    AnotherCustomBoxRow(
-        80,
-        Icons.Default.ToggleOff,
-        R.string.dark_theme
-    )
-    AnotherCustomBoxRow(
-        141,
-        Icons.Default.Share,
-        R.string.share_app
-    )
-    AnotherCustomBoxRow(
-        202,
-        Icons.Default.SupportAgent,
-        R.string.write_to_support
-    )
-    AnotherCustomBoxRow(
-        263,
-        Icons.AutoMirrored.Filled.ArrowForwardIos,
-        R.string.user_agreement
-    )
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Настройки") },
+                navigationIcon = {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Назад",
+                        Modifier.clickable(onClick = { onBackClick() })
+                    )
+                }
+            )
+        }
+    ) { paddingValues ->
+        Column(Modifier.padding(paddingValues)) {
+            AnotherCustomBoxRow(
+                80,
+                Icons.Default.ToggleOff,
+                R.string.dark_theme
+            )
+            AnotherCustomBoxRow(
+                141,
+                Icons.Default.Share,
+                R.string.share_app
+            )
+            AnotherCustomBoxRow(
+                202,
+                Icons.Default.SupportAgent,
+                R.string.write_to_support
+            )
+            AnotherCustomBoxRow(
+                263,
+                Icons.AutoMirrored.Filled.ArrowForwardIos,
+                R.string.user_agreement
+            )
+        }
+    }
+
+
 
 
 }
@@ -100,5 +127,5 @@ fun AnotherCustomBoxRow(
     device = "spec:width=360dp,height=800dp, orientation=landscape")
 @Composable
 fun SettingsScreenPreview() {
-    SettingsScreen()
+    SettingsScreen({})
 }
