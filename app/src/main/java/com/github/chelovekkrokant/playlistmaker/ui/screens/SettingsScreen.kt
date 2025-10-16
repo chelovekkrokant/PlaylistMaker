@@ -2,9 +2,11 @@ package com.github.chelovekkrokant.playlistmaker.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -34,64 +36,49 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.github.chelovekkrokant.playlistmaker.R
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(onBackClick: () -> Unit) {
-
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Настройки") },
-                navigationIcon = {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Назад",
-                        Modifier.clickable(onClick = { onBackClick() })
-                    )
-                }
-            )
-        }
-    ) { paddingValues ->
-        Column(Modifier.padding(paddingValues)) {
-            AnotherCustomBoxRow(
-                80,
-                Icons.Default.ToggleOff,
-                R.string.dark_theme
-            )
-            AnotherCustomBoxRow(
-                141,
-                Icons.Default.Share,
-                R.string.share_app
-            )
-            AnotherCustomBoxRow(
-                202,
-                Icons.Default.SupportAgent,
-                R.string.write_to_support
-            )
-            AnotherCustomBoxRow(
-                263,
-                Icons.AutoMirrored.Filled.ArrowForwardIos,
-                R.string.user_agreement
-            )
-        }
-    }
-
-
-
-
+    СommomScaffold(
+        titleId = R.string.settings,
+        onBackClick = onBackClick,
+        content = { SettingsScreenContent() },
+    )
 }
 
 @Composable
-fun AnotherCustomBoxRow(
-    topPadding : Int,
+fun SettingsScreenContent() {
+    Column(
+        Modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        ScreensColumnItem(
+            Icons.Default.ToggleOff,
+            R.string.dark_theme,
+        )
+        ScreensColumnItem(
+            Icons.Default.Share,
+            R.string.share_app,
+        )
+        ScreensColumnItem(
+            Icons.Default.SupportAgent,
+            R.string.write_to_support,
+        )
+        ScreensColumnItem(
+            Icons.AutoMirrored.Filled.ArrowForwardIos,
+            R.string.user_agreement,
+        )
+    }
+}
+
+@Composable
+fun ScreensColumnItem(
     endIcon : ImageVector,
-    textId: Int = R.string.favorites
+    textId: Int = R.string.favorites,
+    onClick: () -> Unit = {}
 ){
-    // Row with info
     Row(
         modifier = Modifier
-            .padding(top = topPadding.dp)
             .fillMaxWidth()
             .height(61.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -111,15 +98,14 @@ fun AnotherCustomBoxRow(
         )
         Image(
             modifier = Modifier
-                .padding(end = 16.dp),
+                .padding(end = 16.dp)
+                .clickable(onClick = { onClick() })
+                .fillMaxHeight(),
             imageVector = endIcon,
             contentDescription = null,
-            alignment = Alignment.BottomEnd
         )
     }
 }
-
-
 
 @Preview(name = "portrait", showSystemUi = true,
     device = "spec:width=360dp,height=800dp, orientation=portrait")
