@@ -2,7 +2,6 @@ package com.github.chelovekkrokant.playlistmaker.ui.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -27,7 +26,7 @@ import com.github.chelovekkrokant.playlistmaker.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun СommomScaffold(
+fun CommonScaffold(
     titleId: Int,
     onBackClick: () -> Unit,
     content: @Composable () -> Unit
