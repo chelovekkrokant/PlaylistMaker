@@ -95,8 +95,9 @@ fun ScreensColumnItem(
         Image(
             modifier = Modifier
                 .padding(end = 16.dp)
-                .clickable(onClick = { onClick() })
-                .fillMaxHeight(),
+                .width(32.dp)
+                .fillMaxHeight()
+                .clickable(onClick = { onClick() }),
             imageVector = endIcon,
             contentDescription = null,
         )
