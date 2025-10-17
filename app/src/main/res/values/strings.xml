@@ -8,4 +8,9 @@
     <string name="share_app">Поделиться приложением</string>
     <string name="write_to_support">Написать в поддержу</string>
     <string name="user_agreement">Пользовательское соглашение</string>
+    <string name="share_message" translatable="false">Поешь этих вкусных французских булок</string>
+    <string name="write_to_support_email" translatable="false">Salvador953@yandex.ru</string>
+    <string name="write_to_support_subject" translatable="false">Спасибо разработчикам и разработчицам за крутое приложение!</string>
+    <string name="write_to_support_text" translatable="false">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
+    <string name="user_agreement_uri" translatable="false">https://yandex.ru/legal/praktikum_offer/07022019/</string>
 </resources>

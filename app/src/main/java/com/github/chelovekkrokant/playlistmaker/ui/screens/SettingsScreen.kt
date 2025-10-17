@@ -1,5 +1,8 @@
 package com.github.chelovekkrokant.playlistmaker.ui.screens
 
+import android.content.Intent
+import android.content.Intent.createChooser
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -10,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
 import androidx.compose.material.icons.filled.Share
@@ -22,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -30,6 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import com.github.chelovekkrokant.playlistmaker.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,6 +50,7 @@ fun SettingsScreen(onBackClick: () -> Unit) {
 
 @Composable
 fun SettingsScreenContent() {
+    val context = LocalContext.current
     Column(
         Modifier
             .fillMaxSize(),
@@ -55,14 +62,39 @@ fun SettingsScreenContent() {
         ScreensColumnItem(
             Icons.Default.Share,
             R.string.share_app,
+            onClick = {
+                val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_TEXT, context.getString(R.string.share_message))
+                }
+                val chooserIntent = createChooser(shareIntent, "")
+                context.startActivity(chooserIntent)
+            }
         )
         ScreensColumnItem(
             Icons.Default.SupportAgent,
             R.string.write_to_support,
+            onClick =  {
+                val writeToSupportIntent = Intent(Intent.ACTION_SENDTO)
+                writeToSupportIntent.data = "mailto:".toUri()
+                writeToSupportIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(context.getString(R.string.write_to_support_email)))
+                writeToSupportIntent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.write_to_support_subject))
+                writeToSupportIntent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.write_to_support_text))
+                try {
+                    context.startActivity(writeToSupportIntent)
+                } catch (e: Exception) {
+                    Log.e("EMAIL_ERROR", "Failed to open email: ${e.message}")
+                }
+            }
         )
         ScreensColumnItem(
             Icons.AutoMirrored.Filled.ArrowForwardIos,
             R.string.user_agreement,
+            onClick = {
+                val userAgreementIntent = Intent(Intent.ACTION_VIEW)
+                userAgreementIntent.data = context.getString(R.string.user_agreement_uri).toUri()
+                context.startActivity(userAgreementIntent)
+            }
         )
     }
 }
