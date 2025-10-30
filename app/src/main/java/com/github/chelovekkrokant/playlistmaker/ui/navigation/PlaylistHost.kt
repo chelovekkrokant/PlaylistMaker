@@ -22,12 +22,12 @@ fun PlaylistHost(navController: NavHostController) {
         }
         composable(Screens.SETTINGS.route) {
             SettingsScreen(
-                onBackClick = { navController.navigate(Screens.MAIN.route) },
+                onBackClick = { navController.popBackStack() },
             )
         }
         composable(Screens.SEARCH.route) {
             SearchScreen(
-                onBackClick = { navController.navigate(Screens.MAIN.route) },
+                onBackClick = { navController.popBackStack() },
             )
         }
     }

@@ -18,3 +18,5 @@ local.properties
 .idea/
 .gradle/
 *.keystore
+/app/src/main/files.py
+/app/src/main/project_structure.txt

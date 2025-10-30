@@ -37,8 +37,6 @@ fun CommonScaffold(
                 title = {
                     Text(
                         text = stringResource(titleId),
-//                        modifier = Modifier
-//                            .padding(start = 12.dp),
                         fontFamily = FontFamily(Font(R.font.yandex_text_medium)),
                         fontWeight = FontWeight.Medium,
                         style = TextStyle(
