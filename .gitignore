@@ -1,5 +1,6 @@
 *.iml
 .gradle
+.kotlin
 /local.properties
 /.idea/caches
 /.idea/libraries
@@ -15,7 +16,7 @@
 local.properties
 # Android Studio
 .idea/
-*.iml
 .gradle/
-local.properties
 *.keystore
+/app/src/main/files.py
+/app/src/main/project_structure.txt
